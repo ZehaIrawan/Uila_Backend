@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       get 'post/index'
       post :auth, to: 'authentication#create'
       get  '/auth' => 'authentication#fetch'
+      get 'products/index'
+      resources :products
     end
   end
 end
