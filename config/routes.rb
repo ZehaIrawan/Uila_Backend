@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'post/index'
-      post :auth, to: 'authentication#create'
+      post 'auth' => 'authentication#create'
       get  '/auth' => 'authentication#fetch'
       resources :products
       post "/upgrade" => "upgrade#create"

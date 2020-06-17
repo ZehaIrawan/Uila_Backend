@@ -14,6 +14,8 @@ end
 
 def create
   if current_user.admin?
+    raise "no image" if params[:image].blank?
+    image = Cloudinary::Uploader.upload(params[:image])
     @product = Product.new(product_params)
     @product.user_id = current_user.id
     if @product.save
@@ -48,7 +50,7 @@ end
 
 private
   def product_params
-    params.permit(:title, :description, :price)
+    params.permit(:title, :description, :price,:image)
   end
 
   def record_not_found(error)
