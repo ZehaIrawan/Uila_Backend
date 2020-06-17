@@ -4,7 +4,7 @@ class Api::V1::ProductsController < ApiController
 
 def index
     puts current_user.email
-    render json: { user: current_user.email,product: Product.all, current_user: current_user.admin? }
+    render json: { product: Product.all }
 end
 
 def create
