@@ -1,9 +1,9 @@
 class Api::V1::ProductsController < ApiController
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, :only => [:index]
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
 def index
-    puts current_user.email
     render json: { product: Product.all }
 end
 
