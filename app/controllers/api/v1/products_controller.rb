@@ -7,7 +7,7 @@ def index
 end
 
 def create
-  # if current_user.admin?
+  if current_user.admin?
     @product = Product.new(product_params)
     @product.user_id = current_user.id
     if @product.save
@@ -15,7 +15,9 @@ def create
     else
       render json: { errors: @product.errors }
     end
-  # end
+  else
+    render json:{errors:'You are not authorized'}
+  end
 end
 
 
