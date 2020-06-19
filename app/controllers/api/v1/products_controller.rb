@@ -16,10 +16,10 @@ def create
   if current_user.admin?
     image = Cloudinary::Uploader.upload(params[:image])
     imgUrl = image['url']
-    @product = Product.new(:title => params[:title],:description => params[:description],:price => params[:price],:image=> imgUrl)
+    @product = Product.new(:title => params[:title],:description => params[:description],:price => params[:price],:image=> imgUrl,:category_id => params[:category_id])
     @product.user_id = current_user.id
     if @product.save
-      render json:{p:@product}
+      render json: @product
     else
       render json: { errors: @product.errors }
     end
