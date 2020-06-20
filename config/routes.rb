@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get  '/auth' => 'authentication#fetch'
       resources :products
       post "/upgrade" => "upgrade#create"
+      resources :categories
     end
   end
 end
