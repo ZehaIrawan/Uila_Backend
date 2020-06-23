@@ -18,7 +18,7 @@ class  Api::V1::CartItemsController < ApiController
     @product = Product.find(params[:product_id])
     @cart_item = @order.add_product(@product)
       if @cart_item.save
-      render json:{p:'Product added to cart'}
+      render json:@cart_item.to_json(:include => [:product], :except => [:created_at, :updated_at])
       else
     render json:{p:'Failed add to cart',errors:@cart_item.errors.full_messages}
       end
