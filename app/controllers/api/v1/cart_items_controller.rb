@@ -37,6 +37,7 @@ class  Api::V1::CartItemsController < ApiController
   # DELETE /cart_items/1
   def destroy
     @cart_item.destroy
+    render json:'Product deleted from cart'
   end
 
   private
