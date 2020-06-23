@@ -48,6 +48,6 @@ class  Api::V1::CartItemsController < ApiController
 
     # Only allow a trusted parameter "white list" through.
     def cart_item_params
-      params.require(:cart_item).permit(:product_id, :order_id)
+      params.require(:cart_item).permit(:product_id, :order_id,:quantity)
     end
 end
