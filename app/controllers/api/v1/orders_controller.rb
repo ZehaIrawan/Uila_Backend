@@ -36,7 +36,8 @@ class  Api::V1:: OrdersController < ApiController
 
   # DELETE /carts/1
   def destroy
-    @order.destroy
+    @category = Category.find(params[:id])
+    @category.destroy!
   end
 
   private

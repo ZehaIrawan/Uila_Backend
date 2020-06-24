@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :categories
       resources :cart_items
       resources :orders
+      resources :address
     end
   end
 end
