@@ -10,7 +10,7 @@ class  Api::V1:: OrdersController < ApiController
 
   # GET /carts/1
   def show
-    render json: @order
+    render json: @order.to_json(:include => [:product])
   end
 
   # POST /carts
@@ -28,7 +28,7 @@ class  Api::V1:: OrdersController < ApiController
   # PATCH/PUT /carts/1
   def update
     if @order.update(order_params)
-      render json: @order
+      render json: @order.to_json(:include => [:product])
     else
       render json: @order.errors, status: :unprocessable_entity
     end
@@ -36,8 +36,12 @@ class  Api::V1:: OrdersController < ApiController
 
   # DELETE /carts/1
   def destroy
-    @category = Category.find(params[:id])
-    @category.destroy!
+    @order = Order.find(params[:id])
+    if @order.id === current_user.current_order
+      current_user.update(current_order: nil)
+    end
+    @order.destroy!
+    render json: 'Order deleted'
   end
 
   private

@@ -1,11 +1,7 @@
 class Order < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   belongs_to :user
-
-def index
-  @order = current_user.orders
-  render json:@orders
-end
+  has_one :address
 
   def add_product(product)
     current_item = cart_items.find_by(product_id: product.id)
