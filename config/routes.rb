@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :products
       post "/upgrade" => "upgrade#create"
       resources :categories
+      resources :cart_items
+      resources :orders
     end
   end
 end
