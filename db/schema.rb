@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 2020_06_24_015828) do
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "order_id", null: false
+    t.string "addressable_type"
+    t.bigint "addressable_id"
     t.string "full_name"
     t.string "addressline1"
     t.string "addressline2"
@@ -27,8 +27,7 @@ ActiveRecord::Schema.define(version: 2020_06_24_015828) do
     t.string "phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_addresses_on_order_id"
-    t.index ["user_id"], name: "index_addresses_on_user_id"
+    t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -80,8 +79,6 @@ ActiveRecord::Schema.define(version: 2020_06_24_015828) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "addresses", "orders"
-  add_foreign_key "addresses", "users"
   add_foreign_key "cart_items", "orders"
   add_foreign_key "cart_items", "products"
   add_foreign_key "orders", "users"

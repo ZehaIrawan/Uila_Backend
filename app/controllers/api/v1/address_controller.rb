@@ -2,13 +2,11 @@ class  Api::V1::AddressController < ApiController
   rescue_from ActionController::ParameterMissing, :with => :param_missing
 
   def index
-    @address = current_user.address
-    render json: @address
+    render json:current_user.address
   end
 
   def create
-      @address = Address.new(address_params)
-      @address.user_id = current_user.id
+      @address = current_user.address.new(address_params)
       if @address.save
         render json: @address
       else

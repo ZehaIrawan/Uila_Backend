@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   belongs_to :user
-  has_one :address
+  has_one :address, as: :addressable
 
   def add_product(product)
     current_item = cart_items.find_by(product_id: product.id)

@@ -10,7 +10,7 @@ class  Api::V1:: OrdersController < ApiController
 
   # GET /carts/1
   def show
-    render json: @order.to_json(:include => [:product])
+    render json: @order.to_json(:include => [:cart_items,:address])
   end
 
   # POST /carts
@@ -27,10 +27,11 @@ class  Api::V1:: OrdersController < ApiController
 
   # PATCH/PUT /carts/1
   def update
-    if @order.update(order_params)
-      render json: @order.to_json(:include => [:product])
+    @order.address = Address.find(params[:address_id])
+    if @order.save
+      render json: @order.to_json(:include => :address)
     else
-      render json: @order.errors, status: :unprocessable_entity
+      render json: @order.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -52,6 +53,6 @@ class  Api::V1:: OrdersController < ApiController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.fetch(:order, {})
+      params.permit(:address_id)
     end
 end
