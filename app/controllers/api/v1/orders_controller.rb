@@ -10,7 +10,7 @@ class  Api::V1:: OrdersController < ApiController
 
   # GET /carts/1
   def show
-    render json: @order
+    render json: @order.to_json(:include => [:cart_items,:address])
   end
 
   # POST /carts
@@ -27,16 +27,22 @@ class  Api::V1:: OrdersController < ApiController
 
   # PATCH/PUT /carts/1
   def update
-    if @order.update(order_params)
-      render json: @order
+    @order.address = Address.find(params[:address_id])
+    if @order.save
+      render json: @order.to_json(:include => :address)
     else
-      render json: @order.errors, status: :unprocessable_entity
+      render json: @order.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   # DELETE /carts/1
   def destroy
-    @order.destroy
+    @order = Order.find(params[:id])
+    if @order.id === current_user.current_order
+      current_user.update(current_order: nil)
+    end
+    @order.destroy!
+    render json: 'Order deleted'
   end
 
   private
@@ -47,6 +53,6 @@ class  Api::V1:: OrdersController < ApiController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.fetch(:order, {})
+      params.permit(:address_id)
     end
 end
